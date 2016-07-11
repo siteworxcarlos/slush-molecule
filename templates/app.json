@@ -1,0 +1,5 @@
+{
+	"<%= jsonName %>": {
+        "title": "Sample Title Data for <%= jsonName %>"
+    }
+}
