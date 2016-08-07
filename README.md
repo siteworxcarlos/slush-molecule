@@ -5,7 +5,7 @@
 
 ## Getting Started
 
-Install `slush-molecule` globally:
+Install `slush-molecule` globally: (May require SUDO or admin rights)
 
 ```bash
 $ npm install -g slush-molecule
@@ -13,17 +13,25 @@ $ npm install -g slush-molecule
 
 ### Usage
 
-Create a new folder for your project:
+You must run the slush command from the root folder of your Pattern Lab (PL2)
 
 ```bash
-$ mkdir my-slush-molecule
+$ slush molecule
 ```
 
-Run the generator from within the new folder:
+You will be prompted for the name of your molecule, the type of wrapper you prefer for the molecule (div or section tag), if you need a javascript file and/or json file created for the molecule. Your answers will dictate which items get scaffolded into Pattern Lab. The files are generated absent your existing folder hiearchy, the idea being you would place the generated files where needed.
+
+Command to see which generators are installed:
 
 ```bash
-$ cd my-slush-molecule && slush molecule
+$ slush
 ```
+
+Uninstall Slush Molecule:
+```bash
+sudo npm uninstall slush-molecule -g
+```
+
 
 ## Getting To Know Slush
 

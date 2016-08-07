@@ -52,6 +52,12 @@ gulp.task('default', function (done) {
         default: 'Div'
     }, {
         type: 'list',
+        name: 'appFolder',
+        message: 'Would you like this molecule in a folder?',
+        choices: ['Yes', 'No'],
+        default: 'Yes'
+    }, {
+        type: 'list',
         name: 'appJs',
         message: 'Do you need a JS file created for the molecule?',
         choices: ['Yes', 'No'],
@@ -82,7 +88,12 @@ gulp.task('default', function (done) {
                             file.basename = '00-'+answers.appName;
                         }))
                         .pipe(conflict('./'))
-                        .pipe(gulp.dest('source/_patterns/01-molecules/'))
+                        if (answers.appFolder === "Yes"){
+                            .pipe(gulp.dest('source/_patterns/01-molecules/00-'+answers.appName+'/'))
+                        }
+                        if (answers.appFolder === "No"){
+                            .pipe(gulp.dest('source/_patterns/01-molecules/'))
+                        }
                         .pipe(install())
                         .on('end', function() {
                             done();
