@@ -94,6 +94,7 @@ gulp.task('default', function (done) {
                             .on('end', function() {
                                 done();
                             });
+                    }
                     if (answers.appFolder === "No"){
                          gulp.src(__dirname + '/templates/index.mustache')
                             .pipe(template(answers))
