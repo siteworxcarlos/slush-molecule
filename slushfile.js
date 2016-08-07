@@ -3,7 +3,7 @@
  * https://github.com/siteworxcarlos/slush-molecule
  *
  * Copyright (c) 2016, Carlos Picart
- * Licensed under the MIT license.
+ * Unlicensed
  */
 
 'use strict';
