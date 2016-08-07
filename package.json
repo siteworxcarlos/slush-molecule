@@ -14,7 +14,8 @@
   "bugs": {
     "url": "https://github.com/siteworxcarlos/slush-molecule/issues"
   },
-  "license": "MIT",
+  "license": "unlicensed",
+  "private": true,
   "main": "slushfile.js",
   "engines": {
     "node": ">= 0.10.26",
