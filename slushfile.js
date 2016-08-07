@@ -46,6 +46,12 @@ gulp.task('default', function (done) {
         default: defaults.appName
     }, {
         type: 'list',
+        name: 'appWrap',
+        message: 'Would you like a section or div tag wrapper for molecule?',
+        choices: ['Div', 'Section'],
+        default: 'Div'
+    }, {
+        type: 'list',
         name: 'appJs',
         message: 'Do you need a JS file created for the molecule?',
         choices: ['Yes', 'No'],
@@ -69,17 +75,32 @@ gulp.task('default', function (done) {
             answers.jsName = answers.jsName.charAt(0).toUpperCase() + answers.jsName.slice(1); //capitalized first letter in js name
 
             if (answers.appData === "No"){
-                gulp.src(__dirname + '/templates/index.mustache')
-                    .pipe(template(answers))
-                    .pipe(rename(function(file) {
-                        file.basename = '00-'+answers.appName;
-                    }))
-                    .pipe(conflict('./'))
-                    .pipe(gulp.dest('source/_patterns/01-molecules/'))
-                    .pipe(install())
-                    .on('end', function() {
-                        done();
-                    });
+                if (answers.appWrap === "Div"){
+                    gulp.src(__dirname + '/templates/index.mustache')
+                        .pipe(template(answers))
+                        .pipe(rename(function(file) {
+                            file.basename = '00-'+answers.appName;
+                        }))
+                        .pipe(conflict('./'))
+                        .pipe(gulp.dest('source/_patterns/01-molecules/'))
+                        .pipe(install())
+                        .on('end', function() {
+                            done();
+                        });
+                }
+                if (answers.appWrap === "Section"){
+                    gulp.src(__dirname + '/templates/index-section.mustache')
+                        .pipe(template(answers))
+                        .pipe(rename(function(file) {
+                            file.basename = '00-'+answers.appName;
+                        }))
+                        .pipe(conflict('./'))
+                        .pipe(gulp.dest('source/_patterns/01-molecules/'))
+                        .pipe(install())
+                        .on('end', function() {
+                            done();
+                        });
+                }
             }
             
             //output scss file in project directory
@@ -105,7 +126,7 @@ gulp.task('default', function (done) {
                 .pipe(install())
                 .on('end', function() {
                     done();
-                });
+                });    
             
             //if JS needed create one and add to init.js
             if (answers.appJs === "Yes"){
@@ -144,18 +165,32 @@ gulp.task('default', function (done) {
                     .on('end', function() {
                         done();
                     });
-
-                gulp.src(__dirname + '/templates/index-data.mustache')
-                    .pipe(template(answers))
-                    .pipe(rename(function(file) {
-                        file.basename = '00-'+answers.appName;
-                    }))
-                    .pipe(conflict('./'))
-                    .pipe(gulp.dest('source/_patterns/01-molecules/'))
-                    .pipe(install())
-                    .on('end', function() {
-                        done();
-                    });
+                if (answers.appWrap === "Div"){
+                    gulp.src(__dirname + '/templates/index-data.mustache')
+                        .pipe(template(answers))
+                        .pipe(rename(function(file) {
+                            file.basename = '00-'+answers.appName;
+                        }))
+                        .pipe(conflict('./'))
+                        .pipe(gulp.dest('source/_patterns/01-molecules/'))
+                        .pipe(install())
+                        .on('end', function() {
+                            done();
+                        });
+                }
+                if (answers.appWrap === "Section"){
+                    gulp.src(__dirname + '/templates/index-section-data.mustache')
+                        .pipe(template(answers))
+                        .pipe(rename(function(file) {
+                            file.basename = '00-'+answers.appName;
+                        }))
+                        .pipe(conflict('./'))
+                        .pipe(gulp.dest('source/_patterns/01-molecules/'))
+                        .pipe(install())
+                        .on('end', function() {
+                            done();
+                        });
+                }
             }
             
             //update scss file
