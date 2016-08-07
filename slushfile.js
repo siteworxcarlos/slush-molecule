@@ -82,22 +82,31 @@ gulp.task('default', function (done) {
 
             if (answers.appData === "No"){
                 if (answers.appWrap === "Div"){
-                    gulp.src(__dirname + '/templates/index.mustache')
-                        .pipe(template(answers))
-                        .pipe(rename(function(file) {
-                            file.basename = '00-'+answers.appName;
-                        }))
-                        .pipe(conflict('./'))
-                        if (answers.appFolder === "Yes"){
+                    if (answers.appFolder === "Yes"){
+                        gulp.src(__dirname + '/templates/index.mustache')
+                            .pipe(template(answers))
+                            .pipe(rename(function(file) {
+                                file.basename = '00-'+answers.appName;
+                            }))
+                            .pipe(conflict('./'))
                             .pipe(gulp.dest('source/_patterns/01-molecules/00-'+answers.appName+'/'))
-                        }
-                        if (answers.appFolder === "No"){
+                            .pipe(install())
+                            .on('end', function() {
+                                done();
+                            });
+                    if (answers.appFolder === "No"){
+                         gulp.src(__dirname + '/templates/index.mustache')
+                            .pipe(template(answers))
+                            .pipe(rename(function(file) {
+                                file.basename = '00-'+answers.appName;
+                            }))
+                            .pipe(conflict('./'))
                             .pipe(gulp.dest('source/_patterns/01-molecules/'))
-                        }
-                        .pipe(install())
-                        .on('end', function() {
-                            done();
-                        });
+                            .pipe(install())
+                            .on('end', function() {
+                                done();
+                            });
+                    }
                 }
                 if (answers.appWrap === "Section"){
                     gulp.src(__dirname + '/templates/index-section.mustache')
