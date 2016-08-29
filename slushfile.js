@@ -3,7 +3,7 @@
  * https://github.com/siteworxcarlos/slush-molecule
  *
  * Copyright (c) 2016, Carlos Picart
- * Unlicensed
+ * Licensed under the MIT license.
  */
 
 'use strict';
@@ -23,39 +23,38 @@ function format(string) {
     return username.replace(/\s/g, '');
 }
 
-var defaults = (function() {
-    var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE,
-        workingDirName = process.cwd().split('/').pop().split('\\').pop(),
-        osUserName = homeDir && homeDir.split('/').pop() || 'root',
-        configFile = homeDir + '/.gitconfig',
-        user = {};
+var defaults = (function () {
+    var workingDirName = path.basename(process.cwd()),
+      homeDir, osUserName, configFile, user;
+
+    if (process.platform === 'win32') {
+        homeDir = process.env.USERPROFILE;
+        osUserName = process.env.USERNAME || path.basename(homeDir).toLowerCase();
+    }
+    else {
+        homeDir = process.env.HOME || process.env.HOMEPATH;
+        osUserName = homeDir && homeDir.split('/').pop() || 'root';
+    }
+
+    configFile = path.join(homeDir, '.gitconfig');
+    user = {};
+
     if (require('fs').existsSync(configFile)) {
         user = require('iniparser').parseSync(configFile).user;
     }
+
     return {
         appName: workingDirName,
-        userName: format(user.name) || osUserName,
+        userName: osUserName || format(user.name || ''),
+        authorName: user.name || '',
         authorEmail: user.email || ''
     };
 })();
- 
 gulp.task('default', function (done) {
     var prompts = [{
         name: 'appName',
         message: 'What is the name of your molecule?',
         default: defaults.appName
-    }, {
-        type: 'list',
-        name: 'appWrap',
-        message: 'Would you like a section or div tag wrapper for molecule?',
-        choices: ['Div', 'Section'],
-        default: 'Div'
-    }, {
-        type: 'list',
-        name: 'appFolder',
-        message: 'Would you like this molecule in a folder?',
-        choices: ['Yes', 'No'],
-        default: 'Yes'
     }, {
         type: 'list',
         name: 'appJs',
@@ -81,47 +80,17 @@ gulp.task('default', function (done) {
             answers.jsName = answers.jsName.charAt(0).toUpperCase() + answers.jsName.slice(1); //capitalized first letter in js name
 
             if (answers.appData === "No"){
-                if (answers.appWrap === "Div"){
-                    if (answers.appFolder === "Yes"){
-                        gulp.src(__dirname + '/templates/index.mustache')
-                            .pipe(template(answers))
-                            .pipe(rename(function(file) {
-                                file.basename = '00-'+answers.appName;
-                            }))
-                            .pipe(conflict('./'))
-                            .pipe(gulp.dest('source/_patterns/01-molecules/00-'+answers.appName+'/'))
-                            .pipe(install())
-                            .on('end', function() {
-                                done();
-                            });
-                    }
-                    if (answers.appFolder === "No"){
-                         gulp.src(__dirname + '/templates/index.mustache')
-                            .pipe(template(answers))
-                            .pipe(rename(function(file) {
-                                file.basename = '00-'+answers.appName;
-                            }))
-                            .pipe(conflict('./'))
-                            .pipe(gulp.dest('source/_patterns/01-molecules/'))
-                            .pipe(install())
-                            .on('end', function() {
-                                done();
-                            });
-                    }
-                }
-                if (answers.appWrap === "Section"){
-                    gulp.src(__dirname + '/templates/index-section.mustache')
-                        .pipe(template(answers))
-                        .pipe(rename(function(file) {
-                            file.basename = '00-'+answers.appName;
-                        }))
-                        .pipe(conflict('./'))
-                        .pipe(gulp.dest('source/_patterns/01-molecules/'))
-                        .pipe(install())
-                        .on('end', function() {
-                            done();
-                        });
-                }
+                gulp.src(__dirname + '/templates/index.mustache')
+                    .pipe(template(answers))
+                    .pipe(rename(function(file) {
+                        file.basename = '00-'+answers.appName;
+                    }))
+                    .pipe(conflict('./'))
+                    .pipe(gulp.dest('source/_patterns/01-molecules/'))
+                    .pipe(install())
+                    .on('end', function() {
+                        done();
+                    });
             }
             
             //output scss file in project directory
@@ -147,7 +116,7 @@ gulp.task('default', function (done) {
                 .pipe(install())
                 .on('end', function() {
                     done();
-                });    
+                });
             
             //if JS needed create one and add to init.js
             if (answers.appJs === "Yes"){
@@ -186,32 +155,18 @@ gulp.task('default', function (done) {
                     .on('end', function() {
                         done();
                     });
-                if (answers.appWrap === "Div"){
-                    gulp.src(__dirname + '/templates/index-data.mustache')
-                        .pipe(template(answers))
-                        .pipe(rename(function(file) {
-                            file.basename = '00-'+answers.appName;
-                        }))
-                        .pipe(conflict('./'))
-                        .pipe(gulp.dest('source/_patterns/01-molecules/'))
-                        .pipe(install())
-                        .on('end', function() {
-                            done();
-                        });
-                }
-                if (answers.appWrap === "Section"){
-                    gulp.src(__dirname + '/templates/index-section-data.mustache')
-                        .pipe(template(answers))
-                        .pipe(rename(function(file) {
-                            file.basename = '00-'+answers.appName;
-                        }))
-                        .pipe(conflict('./'))
-                        .pipe(gulp.dest('source/_patterns/01-molecules/'))
-                        .pipe(install())
-                        .on('end', function() {
-                            done();
-                        });
-                }
+
+                gulp.src(__dirname + '/templates/index-data.mustache')
+                    .pipe(template(answers))
+                    .pipe(rename(function(file) {
+                        file.basename = '00-'+answers.appName;
+                    }))
+                    .pipe(conflict('./'))
+                    .pipe(gulp.dest('source/_patterns/01-molecules/'))
+                    .pipe(install())
+                    .on('end', function() {
+                        done();
+                    });
             }
             
             //update scss file
