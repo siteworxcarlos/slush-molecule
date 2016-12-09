@@ -1,7 +1,7 @@
 {
   "name": "slush-molecule",
   "description": "Generator to scaffold an molecule component in Pattern Lab",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "homepage": "https://github.com/siteworxcarlos/slush-molecule",
   "author": {
     "name": "Carlos Picart",
