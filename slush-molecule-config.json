@@ -1,0 +1,47 @@
+{
+	"mustacheOutputPath": "source/_patterns/01-molecules/",
+	"mustacheDataFile": {
+		"slushTemplate": true,
+		"template": "/templates/app-with-data.mustache"
+	},
+	"mustacheFile": {
+		"slushTemplate": true,
+		"template": "/templates/app.mustache"
+	},
+	"scssFileOutputPath": "source/css/scss/modules/",
+	"scssNamespaceConnector": "-",
+	"scssFiles": [
+		{
+			"name": "sm",
+			"includedFromFile": "source/css/scss/_style.scss",
+			"scssImportPath": "scss/modules/",
+			"slushTemplate": true,
+			"template": "/templates/app-sm.scss",
+			"importReplace": "//scaffold-mobile"
+		},{
+			"name": "lg",
+			"includedFromFile": "source/css/scss/_style.scss",
+			"scssImportPath": "scss/modules/",
+			"slushTemplate": true,
+			"template": "/templates/app-lg.scss",
+			"importReplace": "//scaffold-desktop"
+		}
+	],
+	"jsFile": {
+		"outputPath": "source/js/modules/",
+		"slushTemplate": true,
+		"template": "/templates/app.js"
+	},
+	"jsInitScript": {
+		"initializedFromFile": "source/js/init.js",
+		"initializeReplace": "//Scaffold JS",
+		"slushTemplate": true,
+		"template": "/templates/app-initialize.js",
+		"tempFilename": "slush-temp-js-init.js"
+	},
+	"dataFile": {
+		"outputPath": "source/_data/modules/",
+		"slushTemplate": true,
+		"template": "/templates/app.json"
+	}
+}
