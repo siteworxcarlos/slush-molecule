@@ -24,16 +24,21 @@
     "test": "echo \"No tests\""
   },
   "dependencies": {
-    "slush": ">=1.0.0",
+    "del": "^2.2.2",
+    "fs": "0.0.1-security",
     "gulp": "^3.6.2",
-    "gulp-template": "^0.1.1",
-    "gulp-install": "^0.1.4",
     "gulp-conflict": "^0.1.1",
+    "gulp-if": "^2.0.2",
+    "gulp-insert": "^0.5.0",
+    "gulp-install": "^0.1.4",
+    "gulp-jsbeautifier": "^2.0.3",
     "gulp-rename": "^1.2.0",
-    "underscore.string": "^2.3.3",
-    "inquirer": "^0.8.0",
     "gulp-replace": "^0.5.4",
-    "iniparser": "^1.0.5"
+    "gulp-template": "^0.1.1",
+    "iniparser": "^1.0.5",
+    "inquirer": "^0.8.0",
+    "slush": ">=1.0.0",
+    "underscore.string": "^2.3.3"
   },
   "keywords": [
     "slushgenerator"
